@@ -1,8 +1,8 @@
 package com.pasanlive.corosel;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -42,7 +42,7 @@ public class MainActivity extends Activity {
                 ImageView myView = new ImageView(getApplicationContext());
                 myView.setScaleType(ImageView.ScaleType.FIT_XY);
                 myView.setLayoutParams(new ImageSwitcher.LayoutParams(ActionBar.LayoutParams.
-                        FILL_PARENT, ActionBar.LayoutParams.FILL_PARENT));
+                        MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT));
 
                 return myView;
             }
@@ -50,7 +50,7 @@ public class MainActivity extends Activity {
         });
 
         // Gesture detection
-        gestureDetector = new GestureDetector(new MyGestureDetector());
+        gestureDetector = new GestureDetector(getApplicationContext(), new MyGestureDetector());
         gestureListener = new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 if (gestureDetector.onTouchEvent(event)) {
