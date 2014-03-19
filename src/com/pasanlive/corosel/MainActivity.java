@@ -8,13 +8,16 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.*;
+import android.widget.ImageSwitcher;
+import android.widget.ImageView;
+import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 public class MainActivity extends Activity {
     private ImageSwitcher imageSwitcher;
 
     private int[] imageList = new int[3];
-    private  int currentPos = 0;
+    private int currentPos = 0;
 
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_MAX_OFF_PATH = 250;
@@ -27,7 +30,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        imageSwitcher = (ImageSwitcher)findViewById(R.id.imageSwitcher1);
+        imageSwitcher = (ImageSwitcher) findViewById(R.id.imageSwitcher1);
 
         imageList[0] = R.drawable.one;
         imageList[1] = R.drawable.two;
@@ -68,22 +71,23 @@ public class MainActivity extends Activity {
     class MyGestureDetector extends GestureDetector.SimpleOnGestureListener {
 
         @Override
-        public boolean onSingleTapConfirmed(MotionEvent e)
-        {
+        public boolean onSingleTapConfirmed(MotionEvent e) {
             return super.onSingleTapConfirmed(e);
         }
 
         @Override
-        public boolean onDown(MotionEvent e)
-        {
+        public boolean onDown(MotionEvent e) {
             return true;
         }
 
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             try {
+                if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH) {
+                    return false;
+                }
                 // right to left swipe
-                if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 
                     currentPos--;
                     if (currentPos < 0) {
@@ -101,7 +105,7 @@ public class MainActivity extends Activity {
 
                 }
                 // left to right swipe
-                else if(e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 
                     currentPos++;
                     if (currentPos > 2) {
